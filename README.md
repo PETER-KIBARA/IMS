@@ -1,6 +1,6 @@
-# Dypos
+# IMS
 
-Point of sales Application using Flutter + Firebase Database
+IMS Application using Flutter + Firebase Database
 Supported and Integrated with Website Admin using CodeIgniter
 
 Feature:
