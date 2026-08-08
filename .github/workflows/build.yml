@@ -33,10 +33,19 @@ jobs:
 
       
       - name: Build APK
+<<<<<<< HEAD
         run: flutter build apk --release
+=======
+        run: flutter build apk --debug
+>>>>>>> f6131041aaf183bf210bc730685119e260767cad
 
       - name: Upload APK
         uses: actions/upload-artifact@v4 
         with:
+<<<<<<< HEAD
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+=======
+          name: debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+>>>>>>> f6131041aaf183bf210bc730685119e260767cad
