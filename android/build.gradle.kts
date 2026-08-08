@@ -9,18 +9,25 @@ rootProject.buildDir = file("../build")
 subprojects {
     project.buildDir = file("${rootProject.buildDir}/${project.name}")
 }
-subprojects {
-    project.evaluationDependsOn(":app")
-}
 
-// Auto-inject missing namespace for legacy dependencies (like escposprinter)
+// Safely inject fallback namespace for legacy dependencies without afterEvaluate
 subprojects {
-    afterEvaluate {
-        val android = project.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+    plugins.withId("com.android.library") {
+        val android = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java)
         if (android != null && android.namespace == null) {
             android.namespace = "com.legacy.${project.name.replace("-", "_")}"
         }
     }
+    plugins.withId("com.android.application") {
+        val android = extensions.findByType(com.android.build.gradle.AppExtension::class.java)
+        if (android != null && android.namespace == null) {
+            android.namespace = "com.legacy.${project.name.replace("-", "_")}"
+        }
+    }
+}
+
+subprojects {
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
