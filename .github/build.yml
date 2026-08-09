@@ -1,0 +1,59 @@
+name: Flutter Android Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java Development Kit (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      # Optional: Required if your pubspec.yaml includes private Git dependencies
+      - name: Configure SSH for Private Git Dependencies
+        if: ${{ secrets.SSH_PRIVATE_KEY != '' }}
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Optional: Restore firebase_options.dart / google-services.json if gitignored
+      - name: Restore Firebase Configuration
+        run: |
+          if [ -n "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" ]; then
+            echo "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" | base64 -d > lib/firebase_options.dart
+          fi
+          if [ -n "${{ secrets.GOOGLE_SERVICES_BASE64 }}" ]; then
+            echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > android/app/google-services.json
+          fi
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Android APK
+        run: flutter build apk --debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
