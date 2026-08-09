@@ -28,12 +28,7 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # Optional: Required if your pubspec.yaml includes private Git dependencies
-      - name: Configure SSH for Private Git Dependencies
-        if: ${{ secrets.SSH_PRIVATE_KEY != '' }}
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
 
       # Optional: Restore firebase_options.dart / google-services.json if gitignored
       - name: Restore Firebase Configuration
