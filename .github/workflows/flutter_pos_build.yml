@@ -2,9 +2,11 @@ name: Flutter Android Build
 
 on:
   push:
-    branches: [ flutter_pos ]
+    branches:
+      - flutter_pos
   pull_request:
-    branches: [ flutter_pos ]
+    branches:
+      - flutter_pos
   workflow_dispatch:
 
 jobs:
@@ -20,7 +22,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
+
+      # Optimized Gradle caching (caches Gradle wrapper, dependencies, and build outputs)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -28,8 +33,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-    
+      # Cache Flutter Pub packages based on pubspec.lock hash
+      - name: Cache Pub Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
 
+      
       - name: Install dependencies
         run: flutter pub get
 
