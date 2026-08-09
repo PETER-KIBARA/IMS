@@ -22,30 +22,41 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   Future<Result<UserModel>> signInWithGoogle() async {
     try {
       await googleSignIn.initialize(
-        clientId: PlatformWrapper().isIOS ? DefaultFirebaseOptions.ios.iosClientId : null,
-        serverClientId: Constants.googleServerClientId,
+        clientId: PlatformWrapper().isIOS
+            ? DefaultFirebaseOptions.ios.iosClientId
+            : null,
+        serverClientId: Constants.webClientId.isNotEmpty
+            ? Constants.webClientId
+            : null,
       );
 
-      final googleSignInAccount = await googleSignIn.attemptLightweightAuthentication();
+      final googleSignInAccount = await googleSignIn
+          .attemptLightweightAuthentication();
 
       final googleSignInAuthentication = googleSignInAccount?.authentication;
 
-      final googleSignInAuthorization = await googleSignInAccount?.authorizationClient.authorizationForScopes(
-        Constants.authScopes,
-      );
+      final googleSignInAuthorization = await googleSignInAccount
+          ?.authorizationClient
+          .authorizationForScopes(
+            Constants.authScopes,
+          );
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthorization?.accessToken,
         idToken: googleSignInAuthentication?.idToken,
       );
 
-      final userCredential = await firebaseAuth.signInWithCredential(credential);
+      final userCredential = await firebaseAuth.signInWithCredential(
+        credential,
+      );
 
       if (userCredential.user == null) {
         return Result.failure(error: 'User data is null after sign-in.');
       }
 
-      return Result.success(data: UserModel.fromFirebaseUser(userCredential.user!));
+      return Result.success(
+        data: UserModel.fromFirebaseUser(userCredential.user!),
+      );
     } catch (e) {
       return Result.failure(error: e);
     }
@@ -66,7 +77,11 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   Future<Result<UserModel?>> getCurrentUser() async {
     try {
       final firebaseUser = firebaseAuth.currentUser;
-      return Result.success(data: firebaseUser != null ? UserModel.fromFirebaseUser(firebaseUser) : null);
+      return Result.success(
+        data: firebaseUser != null
+            ? UserModel.fromFirebaseUser(firebaseUser)
+            : null,
+      );
     } catch (e) {
       return Result.failure(error: e);
     }

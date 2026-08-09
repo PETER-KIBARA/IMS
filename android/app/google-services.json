@@ -12,7 +12,12 @@
           "package_name": "com.elriztechnology.flutter_pos"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "405579995855-1tqvipmd4pa64b31b6fa0ldfrdr6el9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBsiFdSWmLxZRindtQZNtUPHaNgZIqcjDM"
@@ -20,7 +25,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405579995855-1tqvipmd4pa64b31b6fa0ldfrdr6el9q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "405579995855-8b09dnpdqob2q4eishf0goqiblrirvg8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "elriztechnology.com.flutterPos"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405579995855:android:846d7c68e65a0d4f35b5ba",
+        "android_client_info": {
+          "package_name": "ims.peterkibara.tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405579995855-1tqvipmd4pa64b31b6fa0ldfrdr6el9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsiFdSWmLxZRindtQZNtUPHaNgZIqcjDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405579995855-1tqvipmd4pa64b31b6fa0ldfrdr6el9q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "405579995855-8b09dnpdqob2q4eishf0goqiblrirvg8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "elriztechnology.com.flutterPos"
+              }
+            }
+          ]
         }
       }
     }

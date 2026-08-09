@@ -2,7 +2,8 @@ class Constants {
   // Prevents instantiation and extension
   Constants._();
 
-  static const googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+  /// OAuth web client ID supplied at build time with `--dart-define`.
+  static const webClientId = String.fromEnvironment('WEB_CLIENT_ID');
 
   static const String selectedDeviceIdKey = 'selected_device_id';
   static const String selectedConnectionTypeKey = 'selected_connection_type';
