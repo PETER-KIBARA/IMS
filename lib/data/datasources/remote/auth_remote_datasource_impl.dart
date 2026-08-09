@@ -33,13 +33,26 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
       final googleSignInAccount = await googleSignIn
           .attemptLightweightAuthentication();
 
-      final googleSignInAuthentication = googleSignInAccount?.authentication;
+      // 1. Check if the user canceled the sign-in dialog
+      if (googleSignInAccount == null) {
+        return Result.failure(error: 'User canceled sign-in.');
+      }
+
+      final googleSignInAuthentication = googleSignInAccount.authentication;
 
       final googleSignInAuthorization = await googleSignInAccount
-          ?.authorizationClient
+          .authorizationClient
           .authorizationForScopes(
             Constants.authScopes,
           );
+
+      // 2. Ensure at least one token is present before creating credentials
+      if (googleSignInAuthorization?.accessToken == null &&
+          googleSignInAuthentication?.idToken == null) {
+        return Result.failure(
+          error: 'Failed to obtain Google ID or Access Token.',
+        );
+      }
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthorization?.accessToken,

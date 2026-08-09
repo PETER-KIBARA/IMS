@@ -50,6 +50,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "405579995855-kos24lipi8d9fugv2ud3q5pt824c5iro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ims.peterkibara.tech",
+            "certificate_hash": "caf6cc7be206542a278383963ec744aa5c9cc90b"
+          }
+        },
+        {
           "client_id": "405579995855-1tqvipmd4pa64b31b6fa0ldfrdr6el9q.apps.googleusercontent.com",
           "client_type": 3
         }
