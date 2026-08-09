@@ -2,9 +2,9 @@ name: Flutter Android Build
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ flutter_pos ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ flutter_pos ]
   workflow_dispatch:
 
 jobs:
