@@ -28,17 +28,7 @@ jobs:
           channel: 'stable'
           cache: true
 
-      
-
-      # Optional: Restore firebase_options.dart / google-services.json if gitignored
-      - name: Restore Firebase Configuration
-        run: |
-          if [ -n "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" ]; then
-            echo "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" | base64 -d > lib/firebase_options.dart
-          fi
-          if [ -n "${{ secrets.GOOGLE_SERVICES_BASE64 }}" ]; then
-            echo "${{ secrets.GOOGLE_SERVICES_BASE64 }}" | base64 -d > android/app/google-services.json
-          fi
+    
 
       - name: Install dependencies
         run: flutter pub get
