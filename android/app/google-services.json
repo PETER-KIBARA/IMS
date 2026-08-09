@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405579995855",
+    "project_id": "hbpostdmanagement",
+    "storage_bucket": "hbpostdmanagement.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405579995855:android:d1562be1dafc382e35b5ba",
+        "android_client_info": {
+          "package_name": "com.elriztechnology.flutter_pos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsiFdSWmLxZRindtQZNtUPHaNgZIqcjDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
