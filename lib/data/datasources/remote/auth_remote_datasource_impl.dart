@@ -76,6 +76,91 @@ class AuthRemoteDataSourceImpl implements AuthDataSource {
   }
 
   @override
+  Future<Result<UserModel>> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final userCredential = await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (userCredential.user == null) {
+        return Result.failure(error: 'User data is null after sign-in.');
+      }
+
+      return Result.success(
+        data: UserModel.fromFirebaseUser(userCredential.user!),
+      );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return Result.failure(error: _mapFirebaseAuthException(e));
+    } catch (e) {
+      return Result.failure(error: e);
+    }
+  }
+
+  @override
+  Future<Result<UserModel>> signUpWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (userCredential.user == null) {
+        return Result.failure(error: 'User data is null after sign-up.');
+      }
+
+      return Result.success(
+        data: UserModel.fromFirebaseUser(userCredential.user!),
+      );
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return Result.failure(error: _mapFirebaseAuthException(e));
+    } catch (e) {
+      return Result.failure(error: e);
+    }
+  }
+
+  @override
+  Future<Result<void>> sendPasswordResetEmail(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+      return Result.success(data: null);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      return Result.failure(error: _mapFirebaseAuthException(e));
+    } catch (e) {
+      return Result.failure(error: e);
+    }
+  }
+
+  String _mapFirebaseAuthException(firebase_auth.FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        return 'No user found with this email.';
+      case 'wrong-password':
+        return 'Wrong password provided.';
+      case 'email-already-in-use':
+        return 'Email is already in use by another account.';
+      case 'weak-password':
+        return 'Password is too weak. Please use a stronger password.';
+      case 'invalid-email':
+        return 'Email address is invalid.';
+      case 'user-disabled':
+        return 'This user account has been disabled.';
+      case 'too-many-requests':
+        return 'Too many requests. Please try again later.';
+      case 'operation-not-allowed':
+        return 'Email/password sign-in is not enabled.';
+      default:
+        return e.message ?? 'An authentication error occurred.';
+    }
+  }
+
+  @override
   Future<Result<void>> signOut() async {
     try {
       await firebaseAuth.signOut();
